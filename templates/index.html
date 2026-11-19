@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Performance | AI Classifier</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="shell">
+    <nav class="nav">
+      <div class="brand"><span class="brand-mark">✦</span> EduMetric <span class="tag">AI LAB PROJECT</span></div>
+      <a href="#about">About model</a>
+    </nav>
+
+    <header class="hero">
+      <div class="eyebrow"><span class="pulse"></span> MACHINE LEARNING • ACADEMIC INSIGHTS</div>
+      <h1>Understand performance.<br><em>Support potential.</em></h1>
+      <p>Estimate an academic performance category using attendance, study time and previous scores.</p>
+      <div class="hero-meta"><span>01 / INPUT</span><span>02 / CLASSIFY</span><span>03 / INSIGHT</span></div>
+    </header>
+
+    <main class="layout">
+      <section class="panel form-panel">
+        <div class="section-top"><div><div class="kicker">PREDICTION TOOL</div><h2>Student profile</h2></div><span class="step">01</span></div>
+        <p class="muted">Enter the student's academic details below.</p>
+        <form id="predict-form">
+          <label for="attendance">Attendance <span class="unit">%</span></label>
+          <div class="input-wrap"><input id="attendance" type="number" min="0" max="100" value="85" required><span>%</span></div>
+          <div class="range-hint"><span>0%</span><span>100%</span></div>
+
+          <label for="hours">Daily study time <span class="unit">hours</span></label>
+          <div class="input-wrap"><input id="hours" type="number" min="0" max="24" step="0.5" value="4" required><span>hrs</span></div>
+          <div class="range-hint"><span>0 hours</span><span>24 hours</span></div>
+
+          <label for="previous">Previous scores <span class="unit">/ 100</span></label>
+          <div class="input-wrap"><input id="previous" type="number" min="0" max="100" value="75" required><span>/100</span></div>
+          <div class="range-hint"><span>0</span><span>100</span></div>
+
+          <label for="model">Choose classification model</label>
+          <select id="model">
+            <option>Random Forest</option>
+            <option>Decision Tree</option>
+          </select>
+          <button type="submit" id="submit-btn">Predict performance <span>↗</span></button>
+          <p class="fine">Predictions are educational estimates, not definitive judgments about a student.</p>
+        </form>
+      </section>
+
+      <section class="panel result-panel">
+        <div class="section-top"><div><div class="kicker">MODEL OUTPUT</div><h2>Prediction result</h2></div><span class="step">02</span></div>
+        <div id="empty-state" class="empty-state">
+          <div class="orbit"><div class="orbit-core">✦</div></div>
+          <h3>Your result will appear here</h3>
+          <p>Complete the student profile and run the classifier to see the predicted category.</p>
+        </div>
+        <div id="result" class="result hidden">
+          <div class="result-label">PREDICTED CATEGORY</div>
+          <div id="prediction" class="prediction">—</div>
+          <div class="confidence-line"><span>Model confidence estimate</span><strong id="confidence">—</strong></div>
+          <div class="bar"><div id="confidence-bar"></div></div>
+          <div class="prob-title">Class probability estimates</div>
+          <div id="probabilities"></div>
+          <div id="result-note" class="result-note"></div>
+        </div>
+        <div id="error" class="error hidden"></div>
+      </section>
+    </main>
+
+    <section class="metrics-section">
+      <div class="section-top"><div><div class="kicker">MODEL EVALUATION</div><h2>How the models compare</h2></div><span class="step">03</span></div>
+      <p class="muted">Accuracy on a held-out test set (20% of the dataset).</p>
+      <div class="metric-grid">
+        <article class="metric-card"><div class="metric-name">DECISION TREE</div><div class="metric-value">{{ metrics["Decision Tree"]["accuracy"] }}<small>%</small></div><div class="metric-foot">Single tree classifier</div></article>
+        <article class="metric-card featured"><div class="metric-name">RANDOM FOREST</div><div class="metric-value">{{ metrics["Random Forest"]["accuracy"] }}<small>%</small></div><div class="metric-foot">Ensemble of decision trees</div></article>
+      </div>
+      <div class="comparison-note">Both models are trained and tested using the same split for a fair comparison. Actual performance depends on the dataset and category thresholds.</div>
+    </section>
+
+    <section class="about" id="about">
+      <div><div class="kicker">ABOUT THIS PROJECT</div><h2>From student data<br>to useful signals.</h2></div>
+      <div class="about-copy">
+        <p>This project demonstrates supervised machine learning for academic performance classification. The target category is derived from the dataset's Exam_Score.</p>
+        <div class="chips"><span>Python</span><span>Pandas</span><span>Scikit-learn</span><span>Flask</span><span>Decision Tree</span><span>Random Forest</span></div>
+        <p class="disclaimer">Class definitions used: Low = exam score below 65; Medium = 65 to 70 inclusive; High = above 70. These are project-defined thresholds, not official academic standards.</p>
+      </div>
+    </section>
+    <footer><span>EDUMETRIC · STUDENT PERFORMANCE CLASSIFICATION</span><span>AI APPLICATIONS LAB</span></footer>
+  </div>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
